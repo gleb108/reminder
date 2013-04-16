@@ -40,6 +40,8 @@ day starting from fifth day to day zero
 
 ------------------------------------------------------------------------------
 
+<pre>
+
 Example of ~/.expiration_db
 
 #This is comment line and it would be ignored 
@@ -51,6 +53,8 @@ Example of ~/.expiration_db
 # The reminder bellow is going to be shown during for 5th, 12th, 13th, 14th and 15th Jun 2015
 
 15 Jun [10, 3-0] 2015 Expiration date for SSL certificate by Thawte! 
+
+</pre>
 
 ------------------------------------------------------------------------------
 
