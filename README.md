@@ -10,7 +10,7 @@ to get notification by mail.
 
 ------------------------------------------------------------------------------
 
-CONFIGURATION
+#CONFIGURATION
 
 File with reminders (default: ~/.expiration_db) consists of lines
 described below. Lines starting with '#' are comments.
@@ -42,6 +42,8 @@ day starting from fifth day to day zero
 
 Example of ~/.expiration_db
 
+<pre>
+
 #This is comment line and it would be ignored 
 
 ######  Another comment line #######
@@ -52,9 +54,11 @@ Example of ~/.expiration_db
 
 15 Jun [10, 3-0] 2015 Expiration date for SSL certificate by Thawte! 
 
+</pre>
+
 ------------------------------------------------------------------------------
 
-AUTHOR
+#AUTHOR
 
 Gleb Galkin <gleb@elnet.ru>
 
