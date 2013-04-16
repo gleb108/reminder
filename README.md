@@ -10,7 +10,7 @@ to get notification by mail.
 
 ------------------------------------------------------------------------------
 
-CONFIGURATION
+#CONFIGURATION
 
 File with reminders (default: ~/.expiration_db) consists of lines
 described below. Lines starting with '#' are comments.
@@ -40,9 +40,9 @@ day starting from fifth day to day zero
 
 ------------------------------------------------------------------------------
 
-<pre>
-
 Example of ~/.expiration_db
+
+<pre>
 
 #This is comment line and it would be ignored 
 
@@ -58,7 +58,7 @@ Example of ~/.expiration_db
 
 ------------------------------------------------------------------------------
 
-AUTHOR
+#AUTHOR
 
 Gleb Galkin <gleb@elnet.ru>
 
