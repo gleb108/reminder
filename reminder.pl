@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 use Time::localtime;
-use Date::Calc qw(Delta_Days Decode_Month Month_to_Text check_date);
+use Date::Calc qw(Delta_Days Decode_Month Month_to_Text This_Year check_date);
 use Getopt::Long;
 use strict;
 
@@ -9,7 +9,7 @@ Getopt::Long::Configure ("bundling");
 
 =head1 NAME
 
-This is console reminder for expiration dates 
+This is console reminder for expiration dates or annual events
 
 
 =head1 SYNOPSIS
@@ -17,7 +17,7 @@ This is console reminder for expiration dates
 reminder [OPTIONS] 
 
 Options:
- -f <file>, --file=<file> file with dates (default: ~/.expiration_db)
+ -f <file>, --file=<file> file with dates (default: ~/.reminder)
    -a, --all  show all reminders (ignore notification rules)
    -c, --color  use ANSI colors 
    -v, --verbose  verbose mode 
@@ -36,7 +36,7 @@ to get notification by mail.
 
 =item B<-f> I<file> or B<--file=>I<file>
 
-Use alternative remind list instead of ~/.expiration_db
+Use alternative remind list instead of ~/.reminder
 
 =item B<-a> or B<--all>
 
@@ -59,7 +59,7 @@ Show help
 
 =head1 CONFIGURATION
 
-File with reminders (default: ~/.expiration_db) consists of lines
+File with reminders (default: ~/.reminder) consists of lines
 described below. Lines starting with '#' are comments.
 
 
@@ -82,6 +82,9 @@ dd mon yyyy
 
 dd month yyyy
 
+Also you can use magic word EVERY_YEAR instead of yyyy. It's convenient for annual 
+events like birtdays or something.
+
 =item B<notification rule> (list of numbers or number diapasons)
 
 notification rule - (optional) default notification rule is [30, 20, 10, 5-0]
@@ -95,10 +98,12 @@ Text of reminder
 
 =back
 
-=head2 Example of ~/.expiration_db
+=head2 Example of ~/.reminder
 
 
 24 Dec 2014 Domain 'call.me' are going to expire soon 
+
+02 Feb EVERY_YEAR Groundhound day
 
 
 # The reminder bellow is going to be shown during for 5th, 12th, 13th, 14th and 15th Jun 2015
@@ -109,7 +114,7 @@ Text of reminder
 
 =head1 AUTHOR
 
-Gleb Galkin E<lt>gleb@elnet.ruE<gt>
+Gleb Galkin 
 
 =cut
 
@@ -132,7 +137,7 @@ $today = localtime(time);
 
 
 
-my $opt_file = $ENV{'HOME'} . "/.expiration_db";
+my $opt_file = $ENV{'HOME'} . "/.reminder";
 my $opt_all='';
 my $opt_color='';
 my $opt_v='';
@@ -175,7 +180,7 @@ while (<FILE>) {
 	  s/-/ /;
    }	   
    quit ("$opt_file: string number $i is invalid\n> $_ <\n")
-        unless (/^(\d+)\s+(\w+)\s+(\d{4})\s+(\[.*\])?\s*(.*)$/);
+        unless (/^(\d+)\s+(\w+)\s+(\d{4}|EVERY_YEAR)\s+(\[.*\])?\s*(.*)$/);
    $string = "$1 $2 $3 - $5"; 
    my $notification_rule = $4 ? $4 : $notification_rule_def;
 
@@ -184,7 +189,10 @@ while (<FILE>) {
 
    quit ("$opt_file: string number $i contain invalid data\n> $_<\n        ^^^^^^\n") 
       unless ($tmp3);
-   $e_year=$tmp3;	  
+   if ($tmp3 eq 'EVERY_YEAR') {
+	  $e_year = This_Year; 
+   }	   
+   else { $e_year=$tmp3 }
 
    quit ("$opt_file: string number $i contain invalid show days list\n> $tmp4 <\n") 
       if ($tmp4 && $tmp4 !~ /^\[[0-9, -]+\]$/);
@@ -230,7 +238,7 @@ sub usage {
 Usage: $0 [OPTIONS] 
 
 Options:
-   -f <file>, --file=<file> file with reminders (default: ~/.expiration_db)
+   -f <file>, --file=<file> file with reminders (default: ~/.reminder)
    -a, --all  show all events (ignore notification rules)
    -c, --color  use ANSI colors 
    -v, --verbose  verbose mode 

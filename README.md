@@ -1,4 +1,5 @@
 This is console reminder for expiration dates (domains, certificates etc)
+Also it can remind about annual events like birtdays or something.
 
 It's flexible. You can set different notification rules for reminders.
 
@@ -12,7 +13,7 @@ to get notification by mail.
 
 #CONFIGURATION
 
-File with reminders (default: ~/.expiration_db) consists of lines
+File with reminders (default: ~/.reminder) consists of lines
 described below. Lines starting with '#' are comments.
 
 Format of reminder line
@@ -29,6 +30,10 @@ dd mon yyyy
 
 dd month yyyy
 
+Also you can use magic word EVERY_YEAR instead of yyyy. It's convenient for annual 
+events like birtdays or something.
+
+
 notification rule - thats optional (list of numbers or number diapasons)
 
 default notification rule is [30, 20, 10, 5-0]
@@ -40,7 +45,7 @@ day starting from fifth day to day zero
 
 ------------------------------------------------------------------------------
 
-Example of ~/.expiration_db
+Example of ~/.reminder
 
 <pre>
 
@@ -49,6 +54,7 @@ Example of ~/.expiration_db
 ######  Another comment line #######
 
 24 Dec 2014 Domain 'call.me' are going to expire soon 
+02 Feb EVERY_YEAR Groundhound day
 
 # The reminder bellow is going to be shown during for 5th, 12th, 13th, 14th and 15th Jun 2015
 
@@ -60,5 +66,5 @@ Example of ~/.expiration_db
 
 #AUTHOR
 
-Gleb Galkin <gleb@elnet.ru>
+Gleb Galkin
 
