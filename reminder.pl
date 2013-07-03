@@ -130,7 +130,7 @@ my %colorize = (
 # default notification rules
 my $notification_rule_def = "[30, 20, 10, 5-0]";
 
-my ($color, $today, $c_day, $c_mon, $c_year, $e_mon, $e_day, $e_year, $delta, $string, $out);
+my ($color, $today, $c_day, $c_mon, $c_year, $e_mon, $e_day, $e_year, $every_year, $delta, $string, $out) = 0;
 
 $today = localtime(time);
 ($c_day, $c_mon, $c_year)  = ($today->mday, $today->mon+1, $today->year + 1900);
@@ -168,6 +168,7 @@ while (<FILE>) {
    $i++;
    undef($color);
    undef($string);
+   $every_year=0;
    $opt_v && print "$i: $_\n";
    m/^\s*#|^$/ && next;
 
@@ -191,6 +192,7 @@ while (<FILE>) {
       unless ($tmp3);
    if ($tmp3 eq 'EVERY_YEAR') {
 	  $e_year = This_Year; 
+	  $every_year=1;
    }	   
    else { $e_year=$tmp3 }
 
@@ -269,7 +271,7 @@ sub quit {
 sub check_show_day {
   my ($delta, $days) = @_;
   return 1 if ($opt_all);
-  if ($delta < 0) { 
+  if ($delta < 0 && !$every_year) { 
      return 1 unless $delta%10;
   }
   $days =~ s/[\[\] ]//g;
